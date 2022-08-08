@@ -1,5 +1,7 @@
 // pages/shop/shop.js
 import ShopModel from "../../model/shop";
+import {navigateTo} from '../../utils/navigate'
+import {addCart} from '../../common/cart'
 Page({
   /**
    * 调用轮播图接口方法
@@ -9,6 +11,31 @@ Page({
     this.setData({
       bannerData: response.data,
     });
+  },
+
+  //获取商品信息
+  async getShopCode(event){
+    //获取商品条形码
+     const qcode=event.detail
+    //如果条形码不存在 不继续往下执行
+    if(!qcode) return
+
+    try {
+       //获取商品信息
+       const response=await ShopModel.getShopingInfo(qcode)
+       //如果获取商品信息失败 则不继续往下执行
+       if(!response.success) return
+       //获取商品信息
+       const result=response.result
+       //获取商品的数据小于等于0 说明没有当前条形码的数据 不继续执行
+       if(result.length<=0) return
+       //将商品添加到本地
+       addCart(result[0])
+       //跳转到购物车页面
+       wx.navigateTo("/pages/cart/cart")
+    } catch (error) {
+      console.log(err)
+    }
   },
 
   /**

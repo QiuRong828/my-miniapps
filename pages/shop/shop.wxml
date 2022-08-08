@@ -1,7 +1,8 @@
 <!--pages/shop/shop.wxml-->
 <view class="container">
- <view class="swiper-wrap">
+<!-- 轮播图 -->
     <i-swiper data="{{bannerData}}"></i-swiper>
- </view>
- <view class="main">main</view>
+
+ <!-- 扫码按钮 -->
+<i-code-button ></i-code-button>
 </view>
